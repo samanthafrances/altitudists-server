@@ -1,5 +1,5 @@
 const express = require("express");
-const { Destinations } = require("../models/destination");
+const { Favorites } = require("../models/favorite");
 
 
 

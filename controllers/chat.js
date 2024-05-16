@@ -1,5 +1,5 @@
 const express = require("express");
-const { Destinations } = require("../models/destination");
+const { Chat } = require("../models/chat");
 
 
 
