@@ -16,12 +16,14 @@ app.get("api/chat", (req, res) => {
 });
 
 app.get("api/chat/:id", (req, res) => {
-  console.log(req);
+  //console.log(req.params.id);
+  const singleChat = chats.find((c) => c._id === req.params.id);
+  res.send(singleChat);
 });
 
-app.listen(5000, console.log("Server Started on Port 5000"));
-
+const dotenv = require("dotenv");
 const app = express();
+dotenv.config()
 const { PORT } = process.env;
 const server = app.listen(PORT, () => console.log(`listening on PORT ${PORT}`));
 const express = require("express");
@@ -31,12 +33,10 @@ const cors = require("cors");
 const logger = require('morgan');
 const session = require('express-session');
 const passport = require('passport');
-
 const userProfileRouter = require("./routes/UserProfile.js");
 const AuthRouter = require("./routes/AuthRouter");
 const destinationsRouter = require("./routes/destinations.js");
 const chatRouter = require("./routes/chat.js");
-
 const io = require('socket.io') (server, {
   pingTimeout: 60000,
   cors: {
@@ -70,10 +70,6 @@ app.use(session({
 }));
 app.use(passport.initialize());
 app.use(passport.session());
-
-
-
-
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cors());
@@ -84,4 +80,4 @@ app.use("/chat", chatRouter);
 app.use("/userProfile", userProfileRouter);
 
 
-
+app.listen(5000, console.log("Server Started on Port 5000"));
