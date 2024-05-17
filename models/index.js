@@ -1,7 +1,6 @@
 module.exports = {
-    Ride: require("./ride"),
     User: require("./user"),
-    Ticket: require("./ticket"),
-    Schedule: require("./schedule"),
+    Destinations: require("./destination"),
+    Chat: require("./chat"),
   };
   
