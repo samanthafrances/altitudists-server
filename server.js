@@ -3,10 +3,29 @@ require('./config/db.connection.js')
 require('./config/database');
 require('./config/passport');
 
+app.get("/", (req, res) => {
+  res.send("hello world");
+});
+
+app.get('/api/chat',(req,res) => {
+  res.send(chats)
+})
+
+app.get("api/chat", (req, res) => {
+  res.send(chats);
+});
+
+app.get("api/chat/:id", (req, res) => {
+  console.log(req);
+});
+
+app.listen(5000, console.log("Server Started on Port 5000"));
+
 const app = express();
 const { PORT } = process.env;
 const server = app.listen(PORT, () => console.log(`listening on PORT ${PORT}`));
 const express = require("express");
+const { chats } = require("./data.js")
 const morgan = require("morgan");
 const cors = require("cors");
 const logger = require('morgan');
@@ -51,9 +70,9 @@ app.use(session({
 }));
 app.use(passport.initialize());
 app.use(passport.session());
-app.get("/", (req, res) => {
-    res.send("hello world");
-});
+
+
+
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
