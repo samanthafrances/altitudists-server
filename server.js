@@ -5,6 +5,7 @@ require('./config/passport');
 
 const app = express();
 const { PORT } = process.env;
+const server = app.listen(PORT, () => console.log(`listening on PORT ${PORT}`));
 const express = require("express");
 const morgan = require("morgan");
 const cors = require("cors");
@@ -16,6 +17,17 @@ const userProfileRouter = require("./routes/UserProfile.js");
 const AuthRouter = require("./routes/AuthRouter");
 const destinationsRouter = require("./routes/destinations.js");
 const chatRouter = require("./routes/chat.js");
+
+const io = require('socket.io') (server, {
+  pingTimeout: 60000,
+  cors: {
+    origin:"http://localhost:3000",
+  },
+});
+
+io.on("connection", (socket) => {
+  console.log("connected to socket.io");
+});
 
 
 app.use(cookieParser());
@@ -35,8 +47,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cors());
 app.use(morgan("dev"));
-
-
 app.use("/auth", AuthRouter);
 app.use("/destinations", destinationsRouter);
 app.use("/chat", chatRouter);
@@ -44,4 +54,3 @@ app.use("/userProfile", userProfileRouter);
 
 
 
-app.listen(PORT, () => console.log(`listening on PORT ${PORT}`));
