@@ -72,7 +72,10 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+  origin: '*',
+  credentials: true
+}));
 app.use(morgan("dev"));
 app.use("/auth", AuthRouter);
 app.use("/destinations", destinationsRouter);
