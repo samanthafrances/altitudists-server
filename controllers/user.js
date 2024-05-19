@@ -1,5 +1,6 @@
 const express = require("express");
 const User = require("../models/user");
+const Token = require("../config/token");
 const asyncHandler = require("express-async-handler");
 
 
@@ -22,7 +23,7 @@ const registerUser = asyncHandler(async (req, res) => {
     name,
     email,
     password,
-    pic,
+    photo,
   });
 
   if (user) {
@@ -31,8 +32,8 @@ const registerUser = asyncHandler(async (req, res) => {
       name: user.name,
       email: user.email,
       isAdmin: user.isAdmin,
-      pic: user.pic,
-      token: generateToken(user._id),
+      photo: user.photo,
+      token: Token(user._id),
     });
   } else {
     res.status(400);
@@ -52,7 +53,7 @@ const authUser = asyncHandler(async (req, res) => {
       email: user.email,
       isAdmin: user.isAdmin,
       photo: user.photo,
-      token: generateToken(user._id),
+      token: Token(user._id),
     });
   } else {
     res.status(401);
