@@ -1,14 +1,15 @@
 const dotenv = require('dotenv');
-dotenv.config();
-
 const express = require("express");
 const connectMongo = require("./config/db.connection");
+
+dotenv.config();
+connectMongo();
 const app = express();
+
 const morgan = require("morgan");
 const cors = require("cors");
 const session = require('express-session');
 const passport = require('passport');
-const destinationsRouter = require("./routes/destinationsRouter");
 const chatRouter = require("./routes/chatRouter");
 const userRouter = require("./routes/userRouter");
 const messageRouter = require('./routes/messageRouter');
