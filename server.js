@@ -23,10 +23,6 @@ const io = require('socket.io')(server, {
   },
 });
 
-dotenv.config();
-
-connectMongo();
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
