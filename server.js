@@ -5,14 +5,14 @@ const connectMongo = require("./config/db.connection");
 dotenv.config();
 connectMongo();
 const app = express();
-
+const chatRouter = require("./routes/chatRouter");
+const userRouter = require("./routes/userRouter");
+const messageRouter = require('./routes/messageRouter');
+const { notFound, errorHandler } = require("./middleware/error");
 const morgan = require("morgan");
 const cors = require("cors");
 const session = require('express-session');
 const passport = require('passport');
-const chatRouter = require("./routes/chatRouter");
-const userRouter = require("./routes/userRouter");
-const messageRouter = require('./routes/messageRouter');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const http = require('http');
@@ -43,6 +43,9 @@ app.use(passport.session());
 app.use("/api/user", userRouter);
 app.use("/api/message", messageRouter);
 app.use("/api/chat", chatRouter);
+
+app.use(notFound);
+app.use(errorHandler);
 
 app.get("/", (req, res) => {
   res.send("hello world");
