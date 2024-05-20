@@ -20,7 +20,7 @@ const server = http.createServer(app);
 const io = require('socket.io')(server, {
   pingTimeout: 60000,
   cors: {
-    origin:"http://localhost:3000",
+    origin:"http://localhost:4000",
   },
 });
 
@@ -44,25 +44,25 @@ app.use("/api/user", userRouter);
 app.use("/api/message", messageRouter);
 app.use("/api/chat", chatRouter);
 
+const __dirname1 = path.resolve();
+
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname1, "/client/build")));
+
+  app.get("*", (req, res) =>
+    res.sendFile(path.resolve(__dirname1, "client", "build", "index.html"))
+  );
+} else {
+  app.get("/", (req, res) => {
+    res.send("API is running..");
+  });
+}
+
 app.use(notFound);
 app.use(errorHandler);
 
-app.get("/", (req, res) => {
-  res.send("hello world");
-});
 
-app.get('/api/chat',(req,res) => {
-  res.send(chats)
-})
-
-
-app.get("api/chat/:id", (req, res) => {
-  const singleChat = chats.find((c) => c._id === req.params.id);
-  res.send(singleChat);
-});
-
-
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT 
 
 io.on("connection", (socket) => {
   console.log("connected to socket.io");
