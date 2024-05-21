@@ -66,10 +66,45 @@ io.on("connection", (socket) => {
     socket.emit("connected");
   });
 
-  socket.on('join chat', (room) => {
+  socket.on('join chat', async (room) => {
     socket.join(room);
     console.log("User Joined Room: " + room);
+
+    try {
+      const chat = await Chat.findById(room);
+      socket.emit("chat loaded", chat);
+    } catch (err) {
+      console.error(err);
+    }
   });
+
+  socket.on("create chat", async (newChat) => {
+    try {
+      const chat = await Chat.create(newChat);
+      socket.emit("chat created", chat);
+    } catch (err) {
+      console.error(err);
+    }
+  });
+
+  socket.on("update chat", async (updatedChat) => {
+    try {
+      const chat = await Chat.findByIdAndUpdate(updatedChat._id, updatedChat, { new: true });
+      socket.emit("chat updated", chat);
+    } catch (err) {
+      console.error(err);
+    }
+  });
+
+  socket.on("delete chat", async (chatId) => {
+    try {
+      await Chat.findByIdAndDelete(chatId);
+      socket.emit("chat deleted", chatId);
+    } catch (err) {
+      console.error(err);
+    }
+  });
+
 
   socket.on("typing", (room) => socket.in(room).emit("typing"));
   socket.on("stop typing", (room) => socket.in(room).emit("stop typing"));
