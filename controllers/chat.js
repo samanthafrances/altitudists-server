@@ -1,3 +1,4 @@
+const asyncHandler = require('express-async-handler');
 const express = require("express");
 const User = require("../models/user");
 const Chat = require("../models/chat");
