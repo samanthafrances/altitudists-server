@@ -1,4 +1,5 @@
 const express = require("express");
+const http = require('http');
 const dotenv = require('dotenv');
 const connectMongo = require("./config/db.connection");
 const morgan = require("morgan");
@@ -13,7 +14,8 @@ const app = express();
 const chatRouter = require("./routes/chatRouter");
 const userRouter = require("./routes/userRouter");
 const messageRouter = require('./routes/messageRouter');
-const io = require('socket.io');
+const server = http.createServer(app);
+const io = require('socket.io')(server);
 
 dotenv.config();
 connectMongo();
@@ -56,8 +58,8 @@ if (process.env.NODE_ENV === "production") {
 app.use(notFound);
 app.use(errorHandler);
 
-const PORT = process.env.PORT || 5000;
-const server = app.listen(PORT, () => console.log(`Server running on PORT ${PORT}...`));
+//const PORT = process.env.PORT || 5000;
+//const server = app.listen(PORT, () => console.log(`Server running on PORT ${PORT}...`));
 
 io.listen(server);
 
