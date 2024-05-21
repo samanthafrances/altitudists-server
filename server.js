@@ -1,20 +1,22 @@
-const dotenv = require('dotenv');
 const express = require("express");
+const dotenv = require('dotenv');
 const connectMongo = require("./config/db.connection");
-
-dotenv.config();
-connectMongo();
-const app = express();
-const chatRouter = require("./routes/chatRouter");
-const userRouter = require("./routes/userRouter");
-const messageRouter = require('./routes/messageRouter');
-const { notFound, errorHandler } = require("./middleware/error");
 const morgan = require("morgan");
 const cors = require("cors");
 const session = require('express-session');
 const passport = require('passport');
 const path = require('path');
 const cookieParser = require('cookie-parser');
+const { notFound, errorHandler } = require("./middleware/error");
+
+const app = express();
+const chatRouter = require("./routes/chatRouter");
+const userRouter = require("./routes/userRouter");
+const messageRouter = require('./routes/messageRouter');
+const io = require('socket.io');
+
+dotenv.config();
+connectMongo();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -32,6 +34,7 @@ app.use(session({
 }));
 app.use(passport.initialize());
 app.use(passport.session());
+
 app.use("/api/user", userRouter);
 app.use("/api/message", messageRouter);
 app.use("/api/chat", chatRouter);
@@ -53,19 +56,10 @@ if (process.env.NODE_ENV === "production") {
 app.use(notFound);
 app.use(errorHandler);
 
-const PORT = process.env.PORT
+const PORT = process.env.PORT || 5000;
+const server = app.listen(PORT, () => console.log(`Server running on PORT ${PORT}...`));
 
-const server = app.listen(
-  PORT,
-  console.log(`Server running on PORT ${PORT}...`)
-);
-
-const io = require('socket.io')(server, {
-  pingTimeout: 60000,
-  cors: {
-    origin: "http://localhost:4000",
-  },
-});
+io.listen(server);
 
 io.on("connection", (socket) => {
   console.log("connected to socket.io");
