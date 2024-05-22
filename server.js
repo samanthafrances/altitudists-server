@@ -40,21 +40,13 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
+app.get("*", (req, res) => {
+  res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
+});
+
 app.use("/api/user", userRouter);
 app.use("/api/message", messageRouter);
 app.use("/api/chat", chatRouter);
-
-if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.join(__dirname, "client/build")));
-
-  app.get("*", (req, res) =>
-    res.sendFile(path.resolve(__dirname, "client", "build", "index.html"))
-  );
-} else {
-  app.get("/", (req, res) => {
-    res.send("API is running..");
-  });
-}
 
 app.use(notFound);
 app.use(errorHandler);
