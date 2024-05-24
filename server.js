@@ -1,4 +1,7 @@
+require("dotenv").config();
+require("./config/db.connection");
 const express = require("express");
+const { PORT } = process.env;
 const app = express();
 const morgan = require("morgan");
 const cors = require("cors");
