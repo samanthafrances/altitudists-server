@@ -33,7 +33,6 @@
     "passport": "^0.7.0",
     "passport-google-oauth": "^2.0.0",
     "react-router-dom": "^6.23.1",
-    "socket.io": "^4.7.5",
     "socket.io-client": "^4.7.5"
   },
   "devDependencies": {

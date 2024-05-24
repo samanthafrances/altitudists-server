@@ -1,6 +1,7 @@
 require("dotenv").config();
 require("./config/db.connection");
 const express = require("express");
+const path = require("path");
 const { PORT } = process.env;
 const app = express();
 const morgan = require("morgan");
@@ -19,6 +20,8 @@ app.use(cors());
 app.use(morgan("dev"));
 app.use(passport.initialize());
 app.use(passport.session());
+
+app.use(express.static(path.join(__dirname, '../client/build')));
 
 
 app.use("/auth", AuthRouter);
