@@ -10,12 +10,17 @@ const cors = require("cors");
 const AuthRouter = require("./routes/AuthRouter");
 const buddyPassRouter = require("./routes/buddyPass");
 const destinationRouter = require('./routes/destinationsRouter');
-const PinnedDestinationsRouter = require('./routes/pinnedDestinationsRouter');
+const pinnedDestinationsRouter = require('./routes/pinnedDestinationsRouter');
 const buddyPassRouter = require('./routes/buddyPass');
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cors({ origin: 'https://altitudists-frontend-f7c210d67743.herokuapp.com' }));
+app.use(cors({
+    origin: 'https://altitudists-frontend-f7c210d67743.herokuapp.com',
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true
+  }));
 
 console.log('CORS middleware executed'); 
 
@@ -26,6 +31,6 @@ app.use(express.static(path.join(__dirname, '../client/build')));
 app.use("/auth", AuthRouter);
 app.use("/buddyPass", buddyPassRouter);
 app.use("/destination", destinationRouter);
-app.use("/pinnedDestinations", PinnedDestinationsRouter);
+app.use("/pinnedDestinations", pinnedDestinationsRouter);
 
 app.listen(PORT, () => console.log(`listening on PORT ${PORT}`));
