@@ -16,13 +16,13 @@ const buddyPassRouter = require('./routes/buddyPass');
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cors());
+app.use(cors({ origin: 'https://altitudists-frontend-f7c210d67743.herokuapp.com' }));
+
 app.use(morgan("dev"));
 app.use(passport.initialize());
 app.use(passport.session());
 
 app.use(express.static(path.join(__dirname, '../client/build')));
-
 
 app.use("/auth", AuthRouter);
 app.use("/buddyPass", buddyPassRouter);
