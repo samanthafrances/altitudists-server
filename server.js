@@ -11,20 +11,24 @@ const AuthRouter = require("./routes/AuthRouter");
 const buddyPassRouter = require("./routes/buddyPass");
 const destinationRouter = require('./routes/destinationsRouter');
 const pinnedDestinationsRouter = require('./routes/pinnedDestinationsRouter');
-const buddyPassRouter = require('./routes/buddyPass');
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(morgan("dev")); 
 app.use(cors({
-    origin: 'https://altitudists-frontend-f7c210d67743.herokuapp.com',
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
-    credentials: true
-  }));
+  origin: (origin, callback) => {
+    if (origin === 'https://altitudists-frontend-f7c210d67743.herokuapp.com' || origin === 'http://localhost:3000') {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true
+}));
 
-console.log('CORS middleware executed'); 
-
-app.use(morgan("dev"));
+console.log('CORS middleware executed');
 
 app.use(express.static(path.join(__dirname, '../client/build')));
 
