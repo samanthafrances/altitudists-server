@@ -3,9 +3,11 @@ const { Schema } = require("mongoose");
 
 const PinnedDestinationSchema = new Schema({
   name: String,
-  email: String, 
-  password: String,
-  photo: String,
+  address: String,
+  lat: Number,
+  long: Number,
+  description: String,
+  frequency: String
 });
 
 module.exports= mongoose.model("PinnedDestination", PinnedDestinationSchema);

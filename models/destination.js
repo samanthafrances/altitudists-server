@@ -7,7 +7,6 @@ const DestinationSchema = new Schema({
     lat: Number,
     long: Number,
     description: String,
-    image: String,
     season: String, 
     website: String,
 });
