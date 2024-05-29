@@ -8,13 +8,13 @@ router.put(
   "/update/:user_id",
   middleware.stripToken,
   middleware.verifyToken,
-  controller.UpdatePassword
+  controller.updatePassword
 );
 router.get(
   "/session",
   middleware.stripToken,
   middleware.verifyToken,
-  controller.CheckSession
+  controller.checkSession
 );
 
 module.exports = router;
