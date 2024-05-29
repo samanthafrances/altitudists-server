@@ -6,5 +6,4 @@ const DestinationSchema = new Schema({
     address: String,
     website: String,
 });
-
 module.exports = mongoose.model("Destination", DestinationSchema)
