@@ -4,11 +4,6 @@ const Schema = mongoose.Schema;
 const DestinationSchema = new Schema({
     name: String,
     address: String,
-    lat: Number,
-    long: Number,
-    description: String,
-    season: String, 
     website: String,
 });
-
 module.exports = mongoose.model("Destination", DestinationSchema)
