@@ -17,4 +17,4 @@ router.get(
   controller.checkSession
 );
 
-module.exports = router;s
+module.exports = router;
