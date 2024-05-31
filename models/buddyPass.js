@@ -3,9 +3,11 @@ const { Schema } = require("mongoose");
 
 const BuddyPassSchema = new Schema({
   name: String,
-  email: String, 
-  password: String,
-  photo: String,
+  email: String,
+  destination: {
+    type: mongoose.Types.ObjectId,
+    ref: "Destination"
+  },
 });
 
-module.exports= mongoose.model("BuddyPass", BuddyPassSchema);
+module.exports = mongoose.model("BuddyPass", BuddyPassSchema);

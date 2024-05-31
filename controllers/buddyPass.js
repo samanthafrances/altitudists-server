@@ -3,7 +3,7 @@ const { BuddyPass } = require("../models/");
 
 const index = async (req, res, next) => {
   try {
-    res.json(await BuddyPass.find({}));
+    res.json(await BuddyPass.find().populate("destination", "name"));
   } catch (error) {
     res.status(400).json(error);
   }
@@ -19,7 +19,8 @@ const show = async (req, res, next) => {
 
 const create = async (req, res, next) => {
   try {
-    res.json(await BuddyPass.create(req.body));
+    await BuddyPass.create(req.body);
+    res.status(201).send(`Buddy Pass created successfully!`);
   } catch (error) {
     res.status(400).json(error);
   }

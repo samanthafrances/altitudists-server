@@ -9,28 +9,39 @@ const cors = require("cors");
 
 const AuthRouter = require("./routes/AuthRouter");
 const buddyPassRouter = require("./routes/buddyPass");
-const destinationRouter = require('./routes/destinationsRouter');
-const pinnedDestinationsRouter = require('./routes/pinnedDestinationsRouter');
+const destinationRouter = require("./routes/destinationsRouter");
+const pinnedDestinationsRouter = require("./routes/pinnedDestinationsRouter");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(morgan("dev")); 
-app.use(cors({
-  origin: (origin, callback) => {
-    if (origin === 'https://altitudists-frontend-f7c210d67743.herokuapp.com' || origin === 'http://localhost:3000') {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
-  credentials: true
-}));
+app.use(morgan("dev"));
+app.use(
+  cors({
+    origin: [
+      "https://altitudists-frontend-f7c210d67743.herokuapp.com",
+      "http://localhost:5173",
+    ],
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true,
+  })
+  //   {
+  //   origin: (origin, callback) => {
+  //     if (origin === 'https://altitudists-frontend-f7c210d67743.herokuapp.com' || origin === 'http://localhost:8000') {
+  //       callback(null, true);
+  //     } else {
+  //       callback(new Error('Not allowed by CORS'));
+  //     }
+  //   },
+  //   methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  //   allowedHeaders: ['Content-Type', 'Authorization'],
+  //   credentials: true
+  // }
+);
 
-console.log('CORS middleware executed');
+console.log("CORS middleware executed");
 
-app.use(express.static(path.join(__dirname, '../client/build')));
+app.use(express.static(path.join(__dirname, "../client/build")));
 
 app.use("/auth", AuthRouter);
 app.use("/buddyPass", buddyPassRouter);
