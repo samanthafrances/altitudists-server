@@ -28,7 +28,8 @@ const create = async (req, res, next) => {
 
 const destroy = async (req, res, next) => {
   try {
-    res.json(await BuddyPass.findByIdAndDelete(req.params.id));
+    await BuddyPass.findByIdAndDelete(req.params.id);
+    res.status(204).send(`Buddy Pass deleted successfully!`);
   } catch (errord) {
     res.status(400).json(error);
   }
